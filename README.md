@@ -1,1 +1,15 @@
-# ANN_SVM
+# ANN and SVM
+# Program: Soil Class
+# Source codes: generate_data.R, ann_full.R, ann_full_log.R, svm_full.R and svm_full_log.R
+# Inputs: data.RData
+# Outputs: results_ann_full.RData for ann_full.R, results_ann_full_log.RData for ann_full_log.R, results_svm_full.RData for svm_full.R and results_svm_full_log.RData for svm_full_log.R
+# Produced with R version 3.5.0 (https://www.r-project.org/) and RStudio version 1.1.456 (https://www.rstudio.com/)
+# Developer: Lucas Orbolato Carvalho
+# Manuscript: A new approach for soil classification from cone penetration test data comparing artificial neural networks with support vector machines
+# Manuscript authors: Lucas Orbolato Carvalho (a), Dimas Betioli Ribeiro (b)
+# (a) Aeronautics Institute of Technology, Praca Marechal Eduardo Gomes, 50, Sao Jose dos Campos, SP, 12228-900, Brazil. Email: lucasorbol.carvalho@gmail.com
+# (b) Aeronautics Institute of Technology, Praca Marechal Eduardo Gomes, 50, Sao Jose dos Campos, SP, 12228-900, Brazil. Email: dimas@ita.br
+# Complete dataset sample: complete.csv
+# Geological dataset sample: geology.csv
+# For general instructions on how to use the programs, check the MD files
+# Details are provided inside the source codes
