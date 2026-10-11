@@ -51,4 +51,23 @@ assert_true(length(unique(table(balanced$class))) == 1L, "Balancing regression f
 
 assert_true(file.exists("restore_historical_data.R"), "Data restoration helper is missing")
 
-cat("All ANN/SVM core and provenance tests passed.\n")
+# Current-package smoke checks: verify the refactored model wrappers still match
+# the installed RSNNS and kernlab APIs without running the expensive paper grid.
+toy <- data.frame(
+  x1 = c(0.00, 0.05, 0.10, 0.15, 0.20, 0.25, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00),
+  x2 = c(0.05, 0.00, 0.15, 0.10, 0.25, 0.20, 0.80, 0.75, 0.90, 0.85, 1.00, 0.95),
+  class = factor(rep(c("A", "B"), each = 6L))
+)
+ann_fit <- fit_ann(toy, "class", c("x1", "x2"), hidden = 2L, iterations = 20L, seed = 11L)
+ann_pred <- predict_ann(ann_fit, toy, c("x1", "x2"))
+assert_true(length(ann_pred) == nrow(toy), "ANN current-package smoke test failed")
+
+svm_fit <- fit_polynomial_svm(
+  toy, "class", c("x1", "x2"),
+  degree = 1L, scale = 1, offset = 1,
+  seed = 12L
+)
+svm_pred <- predict(svm_fit, toy[, c("x1", "x2"), drop = FALSE])
+assert_true(length(svm_pred) == nrow(toy), "SVM current-package smoke test failed")
+
+cat("All ANN/SVM core, provenance, and model smoke tests passed.\n")
