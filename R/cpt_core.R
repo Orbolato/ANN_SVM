@@ -1,11 +1,17 @@
 # Shared CPT data and evaluation helpers for the recovered 2018 ANN/SVM study.
+#
+# This maintained module defines the common data contract, experiment grid,
+# transformations, and metrics used by the public wrappers. Model fitting and
+# hyperparameter search remain in the exact recovered scripts stored in legacy/.
 
+# Require an R package only when a function actually needs it.
 .require_namespace <- function(package) {
   if (!requireNamespace(package, quietly = TRUE)) {
     stop(sprintf("Package '%s' is required for this operation.", package), call. = FALSE)
   }
 }
 
+# Fail early when an input data frame is missing required fields.
 validate_columns <- function(data, columns, data_name = "data") {
   missing <- setdiff(columns, names(data))
   if (length(missing) > 0L) {
@@ -14,6 +20,9 @@ validate_columns <- function(data, columns, data_name = "data") {
   invisible(TRUE)
 }
 
+# Load the historical workspace contract expected by the recovered ANN/SVM
+# scripts. Returning neutral names keeps maintained code independent of the
+# original object names while preserving those names inside the legacy runner.
 load_archived_workspace <- function(path = "data.RData") {
   if (!file.exists(path)) stop(sprintf("Workspace not found: %s", path), call. = FALSE)
   env <- new.env(parent = baseenv())
@@ -32,6 +41,8 @@ load_archived_workspace <- function(path = "data.RData") {
   )
 }
 
+# Read the two historical CPT CSV inputs used when a user intentionally creates
+# a new deterministic workspace instead of using an archived RData partition.
 load_cpt_csvs <- function(complete_path = "complete.csv", geology_path = "geology.csv") {
   if (!file.exists(complete_path)) stop(sprintf("Complete CSV not found: %s", complete_path), call. = FALSE)
   if (!file.exists(geology_path)) stop(sprintf("Geology CSV not found: %s", geology_path), call. = FALSE)
@@ -41,6 +52,8 @@ load_cpt_csvs <- function(complete_path = "complete.csv", geology_path = "geolog
   )
 }
 
+# Build a deterministic derangement: every test fold receives one validation
+# fold, no validation fold is reused, and a fold never validates itself.
 make_validation_fold_map <- function(k = 10L, seed = 2019L) {
   if (k < 2L) stop("k must be at least 2.", call. = FALSE)
   set.seed(seed)
@@ -51,6 +64,9 @@ make_validation_fold_map <- function(k = 10L, seed = 2019L) {
   }
 }
 
+# The ten experiment definitions shared by the ANN/SVM and DT/RF historical
+# studies: six complete-data four-variable cases, two geological-age cases, and
+# two reduced normalized-input cases.
 paper_experiments <- function() {
   list(
     list(id = "raw_isg", data = "complete", output = "SBTn", features = c("Depth_m", "qt_MPa", "fs_kPa", "u_kPa")),
@@ -66,8 +82,13 @@ paper_experiments <- function() {
   )
 }
 
+# Signed base-10 transform recovered from the historical log variants. It maps
+# 0 to 0 and 1 to 1 and is kept here for regression testing/documentation.
 signed_log_transform <- function(x) sign(x) * log10(1 + 99 * abs(x)) / 2
 
+# Mean class recall used by the recovered scripts as their class-balanced
+# performance measure. Only classes observed in the reference labels are
+# included in the average.
 macro_recall <- function(predicted, observed) {
   predicted <- as.character(predicted)
   observed <- as.character(observed)
