@@ -67,7 +67,7 @@ svm_fit <- fit_polynomial_svm(
   degree = 1L, scale = 1, offset = 1,
   seed = 12L
 )
-svm_pred <- predict(svm_fit, toy[, c("x1", "x2"), drop = FALSE])
+svm_pred <- predict_svm(svm_fit, toy[, c("x1", "x2"), drop = FALSE])
 assert_true(length(svm_pred) == nrow(toy), "SVM current-package smoke test failed")
 
 cat("All ANN/SVM core, provenance, and model smoke tests passed.\n")
