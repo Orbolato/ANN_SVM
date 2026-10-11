@@ -107,9 +107,17 @@ fit_polynomial_svm <- function(train, output, features, degree, scale, offset, s
   )
 }
 
+predict_svm <- function(model, new_data) {
+  .require_namespace("kernlab")
+  # kernlab promotes predict() to an S4 generic for ksvm objects. Calling the
+  # base/stats S3 generic without attaching kernlab does not dispatch this
+  # method on current R, so clean mode uses the namespace-qualified generic.
+  kernlab::predict(model, new_data)
+}
+
 score_polynomial_svm <- function(train, validation, output, features, degree, scale, offset, seed) {
   model <- fit_polynomial_svm(train, output, features, degree, scale, offset, seed)
-  predictions <- predict(model, validation[, features, drop = FALSE])
+  predictions <- predict_svm(model, validation[, features, drop = FALSE])
   macro_recall(predictions, validation[[output]])
 }
 
