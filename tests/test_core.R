@@ -26,9 +26,19 @@ assert_equal(macro_recall(c(1, 1, 2, 2), c(1, 2, 2, 2)), (1 + 2/3)/2, "Macro-rec
 validation <- make_validation_fold_map(10L, 2019L)
 assert_true(length(unique(validation)) == 10L, "Validation folds must be unique")
 assert_true(all(validation != seq_len(10L)), "Validation fold cannot equal test fold")
-workspace <- load_archived_workspace("data.RData")
-assert_true(nrow(workspace$complete) > 0L && nrow(workspace$geology) > 0L, "Archived workspace failed to load")
-assert_true(length(workspace$folds_complete) == 10L && length(workspace$folds_geology) == 10L, "Archived folds are incomplete")
+
+# Validate the workspace contract without duplicating the shared historical data.
+workspace_file <- tempfile(fileext = ".RData")
+dataNet <- data.frame(SBTn = c(1, 2), x = c(0, 1))
+dataGeo <- data.frame(MSBTn = c(1, 2), x = c(0, 1))
+foldsNet <- replicate(10L, 1L, simplify = FALSE)
+foldsGeo <- replicate(10L, 1L, simplify = FALSE)
+validFolds <- make_validation_fold_map(10L, 2020L)
+save(dataNet, dataGeo, foldsNet, foldsGeo, validFolds, file = workspace_file)
+workspace <- load_archived_workspace(workspace_file)
+assert_true(nrow(workspace$complete) == 2L && nrow(workspace$geology) == 2L, "Workspace contract failed")
+assert_true(length(workspace$folds_complete) == 10L && length(workspace$folds_geology) == 10L, "Workspace folds contract failed")
+
 assert_true(ann_svm_variant("ann", FALSE)$archive_path == "ANN/For_submission/ANN_full.R", "ANN mapping failed")
 assert_true(ann_svm_variant("svm", TRUE)$archive_path == "SVM/For_submission/SVM_full_log.R", "SVM mapping failed")
 cat("All ANN/SVM static and core tests passed.\n")
