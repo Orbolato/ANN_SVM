@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the associated ANN/SVM study and/or the later journal article as appropriate."
+title: "ANN and SVM for CPT Soil Classification"
+type: software
+authors:
+  - family-names: Carvalho
+    given-names: Lucas Orbolato
+  - family-names: Ribeiro
+    given-names: Dimas Betioli
+repository-code: "https://github.com/Orbolato/ANN_SVM"
+preferred-citation:
+  type: conference-paper
+  title: "Comparing artificial neural networks with support vector machines for soil classification"
+  authors:
+    - family-names: Carvalho
+      given-names: Lucas O.
+    - family-names: Ribeiro
+      given-names: Dimas B.
+    - family-names: Monteiro
+      given-names: Francisco A. C.
+  year: 2019
