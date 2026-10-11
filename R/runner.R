@@ -109,7 +109,7 @@ run_ann_svm_experiments <- function(model = c("ann", "svm"), log_transform = FAL
           tuning$degree, tuning$scale, tuning$offset,
           seed = fold_seed + 50000L
         )
-        predictions <- predict(fit, split$test[, experiment$features, drop = FALSE])
+        predictions <- predict_svm(fit, split$test[, experiment$features, drop = FALSE])
         parameters <- sprintf(
           "degree=%d;scale=%d;offset=%d",
           tuning$degree, tuning$scale, tuning$offset
