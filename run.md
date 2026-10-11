@@ -1,5 +1,19 @@
-# User manual for dt_full.R and rf_full.R
-# 1) Run the R saved workspace (data.RData) created with the generate_data.R code
-# 2) Run the entire code
-# 3) Check the variables initialization in the first code section to found the information of interest
-# 4) Compare with the results in results_ann_full.RData for ann_full.R, results_ann_full_log.RData for ann_full_log.R, results_svm_full.RData for svm_full.R and results_svm_full_log.RData for svm_full_log.R
+# Running the ANN/SVM analyses
+
+Main commands:
+
+```bash
+Rscript ann_full.R
+Rscript ann_full_log.R
+Rscript svm_full.R
+Rscript svm_full_log.R
+Rscript svm_kernel_test.R
+```
+
+For a short smoke run, restrict both configurations and folds, for example:
+
+```bash
+Rscript svm_full_log.R --max-configurations 1 --max-folds 1 --minimum-per-class 50
+```
+
+Use `--legacy` with one of the four main entry points to execute the exact recovered 2018 submission script instead of the cleaned implementation.

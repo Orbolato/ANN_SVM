@@ -1,0 +1,9 @@
+.Rhistory
+.RDataTmp
+.Rproj.user/
+*.Rproj
+.DS_Store
+results/
+complete.csv
+geology.csv
+data.RData

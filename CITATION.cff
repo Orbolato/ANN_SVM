@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the associated CILAMCE 2019 conference paper."
+title: "ANN and SVM models for CPT soil classification"
+type: software
+authors:
+  - family-names: Carvalho
+    given-names: Lucas Orbolato
+  - family-names: Ribeiro
+    given-names: Dimas Betioli
+  - family-names: Monteiro
+    given-names: Francisco A. C.
+repository-code: "https://github.com/Orbolato/ANN_SVM"
+preferred-citation:
+  type: conference-paper
+  title: "Comparing artificial neural networks with support vector machines for soil classification"
+  authors:
+    - family-names: Carvalho
+      given-names: Lucas O.
+    - family-names: Ribeiro
+      given-names: Dimas B.
+    - family-names: Monteiro
+      given-names: Francisco A. C.
+  collection-title: "Proceedings of the XL Ibero-Latin-American Congress on Computational Methods in Engineering (CILAMCE 2019)"
+  year: 2019
