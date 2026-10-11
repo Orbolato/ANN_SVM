@@ -46,12 +46,12 @@ for (config_index in seq_along(experiments)) {
       } else {
         model <- fit_svm_kernel(split$train, experiment$output, experiment$features, kernel, seed)
         validation_score <- macro_recall(
-          predict(model, split$validation[, experiment$features, drop = FALSE]),
+          predict_svm(model, split$validation[, experiment$features, drop = FALSE]),
           split$validation[[experiment$output]]
         )
       }
       test_score <- macro_recall(
-        predict(model, split$test[, experiment$features, drop = FALSE]),
+        predict_svm(model, split$test[, experiment$features, drop = FALSE]),
         split$test[[experiment$output]]
       )
       index <- index + 1L
