@@ -13,7 +13,9 @@ The public repository originally contained only three instruction files and name
 - SVM test variants and earlier biased/geology/confusion-development scripts;
 - the common `complete.csv`, `geology.csv`, and `data.RData` snapshot.
 
-A matching historical `generate_data.R` was recovered from the companion DT/RF archive (`RF.zip`). The complete source snapshot is preserved byte-for-byte in `legacy/2018/ANN_SVM_recovered_source.tar.xz`; data files are stored separately at repository root so they remain directly usable.
+A matching historical `generate_data.R` was recovered from the companion DT/RF archive (`RF.zip`). The complete **source** snapshot is preserved byte-for-byte in `legacy/2018/ANN_SVM_recovered_source.tar.xz`.
+
+The three historical data/workspace files are not duplicated in this repository because the copies in `SVM.zip` are byte-for-byte identical to the copies already preserved in the companion [`Orbolato/Trees`](https://github.com/Orbolato/Trees) repository. Their hashes are recorded below so the shared experiment snapshot remains independently verifiable.
 
 ## Historical source vs cleaned entry points
 
@@ -27,7 +29,7 @@ The historical full scripts are large monolithic programs (roughly 4,000–4,800
 
 Deterministic reruns are therefore **method-preserving reruns**, not claims of bit-for-bit identity with historical result workspaces.
 
-## Data snapshot
+## Shared historical data snapshot
 
 `complete.csv`, `geology.csv`, and `data.RData` are the exact 2018 submission copies found in both the ANN/SVM and DT/RF archives. Their SHA-256 hashes are:
 
@@ -37,7 +39,7 @@ Deterministic reruns are therefore **method-preserving reruns**, not claims of b
 7ec316cd397fd722911487eecf1422e111ce666f8d96be33bfc7b0948f142ec1  data.RData
 ```
 
-The same files are used by the companion `Trees` repository, confirming a shared historical experiment snapshot across ANN, SVM, DT, and RF.
+The same files are tracked in the companion `Trees` repository, confirming a shared historical experiment snapshot across ANN, SVM, DT, and RF. To run ANN/SVM against that archived workspace, copy or otherwise provide `data.RData` locally and pass its path with `--workspace`.
 
 ## Models
 
@@ -54,10 +56,10 @@ The source was developed for an older R environment (the original README cites R
 ## Run
 
 ```bash
-Rscript ann_full.R
-Rscript ann_full_log.R
-Rscript svm_full.R
-Rscript svm_full_log.R
+Rscript ann_full.R --workspace /path/to/data.RData
+Rscript ann_full_log.R --workspace /path/to/data.RData
+Rscript svm_full.R --workspace /path/to/data.RData
+Rscript svm_full_log.R --workspace /path/to/data.RData
 ```
 
 Useful options:
@@ -72,21 +74,21 @@ Useful options:
 For example:
 
 ```bash
-Rscript svm_full_log.R --seed 2026
-Rscript ann_full.R --legacy
+Rscript svm_full_log.R --workspace ../Trees/data.RData --seed 2026
+Rscript ann_full.R --workspace ../Trees/data.RData --legacy
 ```
 
 The wrappers save resulting analysis objects under `results/` unless `--output` is supplied.
 
 ## Regenerate a workspace
 
-The archived `data.RData` preserves the historical folds. To generate a new reproducible workspace from the CSV files:
+If you have local copies of the historical CSV files, a new reproducible workspace can be generated with:
 
 ```bash
 Rscript generate_data.R --complete complete.csv --geology geology.csv --output data.RData --seed 2019
 ```
 
-A newly generated workspace is reproducible but should not be assumed to contain the same historical random fold assignment.
+A newly generated workspace is reproducible but should not be assumed to contain the same historical random fold assignment as the archived `data.RData`.
 
 ## Provenance
 
@@ -104,7 +106,7 @@ See `legacy/2018/README.md` for submission-file hashes and recovery notes.
 Rscript tests/test_core.R
 ```
 
-The tests validate source parsing, experiment definitions, transforms, macro recall, fold mapping, historical workspace structure, and archive-to-wrapper mappings. GitHub Actions runs the same checks.
+The tests validate source parsing, experiment definitions, transforms, macro recall, fold mapping, workspace-interface validation, and archive-to-wrapper mappings. GitHub Actions runs the same checks.
 
 ## Citation
 
